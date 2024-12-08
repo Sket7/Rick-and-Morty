@@ -1,14 +1,14 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { Stack } from 'expo-router';
 
-import CartCharacter from '@/components/cart-character';
-import { data, data2 } from '@/components/data';
+// SplashScreen.preventAutoHideAsync();
 
-export default function App() {
+const RootLayout = () => {
   return (
-    <ScrollView>
-      <CartCharacter {...data} />
-      <CartCharacter {...data2} />
-    </ScrollView>
+    <Stack>
+      <Stack.Screen name="home" options={{ headerShown: false }} />
+    </Stack>
   );
-}
+};
+
+export default RootLayout;
