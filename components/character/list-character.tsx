@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 
 import CartCharacter from './cart-character';
-import { Character } from '../data';
+import { Character } from '@/useCase';
 
 const ListEmptyComponent = () => {
   return (

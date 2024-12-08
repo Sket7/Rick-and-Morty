@@ -1,14 +1,12 @@
 import React from 'react';
 import { Stack } from 'expo-router';
 
-// SplashScreen.preventAutoHideAsync();
-
-const RootLayout = () => {
+const StackLayout = () => {
   return (
     <Stack>
-      <Stack.Screen name="home" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
 };
 
-export default RootLayout;
+export default StackLayout;

@@ -1,8 +1,7 @@
-import React from 'react';
 import { Redirect } from 'expo-router';
 
-const RootPage = () => {
+const StartPage = () => {
   return <Redirect href="/characters" />;
 };
 
-export default RootPage;
+export default StartPage;

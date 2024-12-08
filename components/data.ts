@@ -1,4 +1,6 @@
-export const ch = {
+import { Character } from '@/useCase';
+
+export const ch: Character = {
   id: 379,
   name: 'Wedding Bartender',
   status: 'unknown',
@@ -48,7 +50,7 @@ export const ch2: Character = {
   created: '2017-12-30T18:03:48.054Z',
 };
 
-export const characters = [
+export const characters: Character[] = [
   {
     id: 1,
     name: 'Rick Sanchez',
@@ -686,5 +688,3 @@ export const characters = [
     created: '2017-11-04T22:34:53.659Z',
   },
 ];
-
-export type Character = typeof ch;
