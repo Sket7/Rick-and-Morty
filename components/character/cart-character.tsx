@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 
-import type { Character } from '../data';
+import type { Character } from '@/useCase';
 
 type Props = { item: Character };
 
@@ -12,14 +12,13 @@ const CartCharacter: React.FC<Props> = ({ item }: Props) => {
       <View style={styles.data}>
         <View>
           <View style={styles.row}>
-            <Text style={styles.text}>Имя: </Text> 
+            <Text style={styles.text}>{'Имя: '}</Text>
             <Text style={styles.textBold}>{item.name}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.text}>{'Статус: '}</Text>
             <Text style={styles.textBold}>{item.status}</Text>
-            <Text style={styles.text}>{' - '}</Text>
-            <Text style={styles.text}>{'Вид: '}</Text>
+            <Text style={styles.text}>{' - Вид: '}</Text>
             <Text style={styles.textBold}>{item.species}</Text>
           </View>
         </View>
