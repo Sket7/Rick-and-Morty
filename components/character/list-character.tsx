@@ -1,26 +1,29 @@
 import React from 'react';
-import { FlatList, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import {
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  GestureResponderEvent,
+  TouchableOpacity,
+} from 'react-native';
 
 import CartCharacter from './cart-character';
 import { Character } from '@/useCase';
 
-const ListEmptyComponent = () => {
-  return (
-    <View style={styles.listEmptyComponent}>
-      <Text style={styles.textEmpty}>Список пуст</Text>
-    </View>
-  );
+type Props = {
+  data: Character[];
+  onPress?: (event: GestureResponderEvent) => void;
+  onLongPress?: (event: GestureResponderEvent) => void;
 };
 
-type Props = { data: Character[] };
-
-const ListCharacter: React.FC<Props> = ({ data }: Props) => {
+const ListCharacter: React.FC<Props> = ({ data, onPress, onLongPress }: Props) => {
   const renderItem = ({ item }: { item: Character }) => {
     return (
       <View style={styles.renderItem}>
-        <TouchableHighlight>
+        <TouchableOpacity activeOpacity={0.6} onPress={onPress} onLongPress={onLongPress}>
           <CartCharacter item={item} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -29,6 +32,14 @@ const ListCharacter: React.FC<Props> = ({ data }: Props) => {
 };
 
 export default ListCharacter;
+
+const ListEmptyComponent = () => {
+  return (
+    <View style={styles.listEmptyComponent}>
+      <Text style={styles.textEmpty}>Список пуст</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   renderItem: {

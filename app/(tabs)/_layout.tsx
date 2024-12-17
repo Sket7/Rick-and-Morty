@@ -17,7 +17,7 @@ const TabsLayout = () => {
         name="bookmarks"
         options={{
           title: 'Закладки',
-          tabBarIcon: () => <FontAwesome6 name="bookmark" size={20} color="#3c3e44" />,
+          tabBarIcon: () => <FontAwesome6 name="bookmark" size={22} color="#3c3e44" />,
         }}
       />
     </Tabs>
