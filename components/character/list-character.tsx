@@ -13,22 +13,30 @@ import { Character } from '@/useCase';
 
 type Props = {
   data: Character[];
-  onPress?: (event: GestureResponderEvent) => void;
-  onLongPress?: (event: GestureResponderEvent) => void;
+  onPress: (id: number) => void;
+  ListHeaderComponent: () => React.JSX.Element;
 };
 
-const ListCharacter: React.FC<Props> = ({ data, onPress, onLongPress }: Props) => {
+const ListCharacter: React.FC<Props> = ({ data, onPress, ListHeaderComponent }: Props) => {
   const renderItem = ({ item }: { item: Character }) => {
     return (
       <View style={styles.renderItem}>
-        <TouchableOpacity activeOpacity={0.6} onPress={onPress} onLongPress={onLongPress}>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => onPress(item.id)}>
           <CartCharacter item={item} />
         </TouchableOpacity>
       </View>
     );
   };
 
-  return <FlatList data={data} renderItem={renderItem} ListEmptyComponent={ListEmptyComponent} />;
+  return (
+    <FlatList
+      data={data}
+      keyExtractor={item => item.id.toString()}
+      renderItem={renderItem}
+      ListEmptyComponent={ListEmptyComponent}
+      ListHeaderComponent={ListHeaderComponent}
+    />
+  );
 };
 
 export default ListCharacter;

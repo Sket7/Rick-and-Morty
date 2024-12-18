@@ -1,11 +1,3 @@
-export const getCharactersFromApi = async (page: number = 0): Promise<CharactersFromApi> => {
-  const response = await fetch(
-    `https://rickandmortyapi.com/api/character/?page=${Math.abs(page) | 0}`,
-  );
-  const data: CharactersFromApi = await response.json();
-  return data;
-};
-
 export interface CharactersFromApi {
   info: Info;
   results: Character[];
