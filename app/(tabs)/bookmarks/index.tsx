@@ -1,17 +1,23 @@
-import { SafeAreaView, StyleSheet, View, Text, Button } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SQLiteDatabase, SQLiteRunResult, useSQLiteContext } from 'expo-sqlite';
 
+import { type Character, getOneCharacterFromLocal, saveCharacterToLocal } from '@/useCase';
+import { ch, ch2 } from '@/components/data';
 import ListCharacter from '@/components/character/list-character';
-import { type Character, type CharactersFromApi, getManyCharactersFromApi } from '@/useCase';
 import { router } from 'expo-router';
 
-const Characters = () => {
-  const [data, setData] = useState<CharactersFromApi>();
+const Bookmark = () => {
+  const db = useSQLiteContext();
+  const { limit, offset } = { limit: 10, offset: 0 };
+
+  const [chars, setChars] = useState<Character[]>();
   const [page, setPage] = useState(1);
 
   const setPageValid = (seterPage: number) => {
     if (seterPage < 1) return setPage(1);
-    if (seterPage > (data?.info.pages || 1)) return setPage(data?.info.pages || 1);
+    // if (seterPage > (data?.info.pages || 1)) return setPage(data?.info.pages || 1);
     return setPage(seterPage);
   };
 
@@ -25,31 +31,27 @@ const Characters = () => {
     );
   };
 
-  const getCharacters = async (page: number) => {
-    try {
-      const data = await getManyCharactersFromApi(page);
-      setData(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    getCharacters(page);
-  }, [page]);
+    async function setup(db: SQLiteDatabase) {
+      const result = await saveCharacterToLocal(db, ch);
+      const char_res = (await getOneCharacterFromLocal(db, result.lastInsertRowId)) || ch2;
+      setChars([char_res]);
+    }
+    setup(db);
+  }, []);
 
   return (
     <SafeAreaView>
       <ListCharacter
-        data={data?.results || []}
-        onPress={(id: number) => router.push({ pathname: '/characters/[id]', params: { id } })}
+        data={chars || []}
+        onPress={(id: number) => router.push({ pathname: '/bookmarks/[id]', params: { id } })}
         ListHeaderComponent={ListHeaderComponent}
       />
     </SafeAreaView>
   );
 };
 
-export default Characters;
+export default Bookmark;
 
 const styles = StyleSheet.create({
   listEmptyComponent: {

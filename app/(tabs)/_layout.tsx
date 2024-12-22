@@ -3,10 +3,11 @@ import { Tabs } from 'expo-router';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { SQLiteProvider } from 'expo-sqlite';
+import { initDataBaseSQLite } from '@/useCase';
 
 const TabsLayout = () => {
   return (
-    <SQLiteProvider databaseName="rickandmorty.db">
+    <SQLiteProvider databaseName="rickandmorty.db" onInit={initDataBaseSQLite}>
       <Tabs>
         <Tabs.Screen
           name="characters"
