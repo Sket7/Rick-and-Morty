@@ -1,12 +1,14 @@
-import { Character, getOneCharacterFromApi } from '@/useCase';
-import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { ScrollView, Text, View, StyleSheet } from 'react-native';
+
+import { type Character, getOneCharacterFromApi } from '@/useCase';
+import PageCharacter from '@/components/character/page-character';
 
 type Props = {};
 
-const PageCharacter: React.FC<Props> = ({}) => {
-  const { id } = useLocalSearchParams();
+const CharacterPage: React.FC<Props> = ({}) => {
+  const { id } = useLocalSearchParams<{ id: string }>();
 
   const [character, setCharacter] = React.useState<Character>();
 
@@ -24,12 +26,29 @@ const PageCharacter: React.FC<Props> = ({}) => {
   }, [character]);
 
   return (
-    <View>
+    <View style={styles.container}>
       <ScrollView>
-        <Text>{JSON.stringify(character, null, 2)}</Text>
+        {!character ? (
+          <Text style={styles.text}>Loading...</Text>
+        ) : (
+          <PageCharacter item={character} />
+        )}
       </ScrollView>
     </View>
   );
 };
 
-export default PageCharacter;
+export default CharacterPage;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
+  text: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    color: '#ff9800',
+  },
+});

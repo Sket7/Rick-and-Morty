@@ -2,7 +2,7 @@ import { SafeAreaView, StyleSheet, View, Text, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 import ListCharacter from '@/components/character/list-character';
-import { type CharactersFromApi, getManyCharactersFromApi } from '@/useCase';
+import { type Character, type CharactersFromApi, getManyCharactersFromApi } from '@/useCase';
 import { router } from 'expo-router';
 
 const Characters = () => {
@@ -27,9 +27,9 @@ const Characters = () => {
   const ListHeaderComponent = () => {
     return (
       <View style={styles.listEmptyComponent}>
-        <Button title="<" onPress={() => setPageValid(page - 1)} />
+        <Button color={styles.button.color} title="<" onPress={() => setPageValid(page - 1)} />
         <Text style={styles.textEmpty}>{page}</Text>
-        <Button title=">" onPress={() => setPageValid(page + 1)} />
+        <Button color={styles.button.color} title=">" onPress={() => setPageValid(page + 1)} />
       </View>
     );
   };
@@ -62,5 +62,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginInline: 25,
+  },
+  button: {
+    color: '#ff9800',
   },
 });
