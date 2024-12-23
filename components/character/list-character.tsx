@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  FlatList,
-  View,
-  Text,
-  StyleSheet,
-  GestureResponderEvent,
-  TouchableOpacity,
-} from 'react-native';
+import { FlatList, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import CartCharacter from './cart-character';
-import { Character } from '@/useCase';
+import type { Character } from '@/useCase';
 
 type Props = {
   data: Character[];

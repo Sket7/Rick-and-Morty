@@ -1,18 +1,17 @@
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SQLiteDatabase, SQLiteRunResult, useSQLiteContext } from 'expo-sqlite';
+import { SQLiteDatabase, useSQLiteContext } from 'expo-sqlite';
 
-import { type Character, getOneCharacterFromLocal, saveCharacterToLocal } from '@/useCase';
+import { type Character, getOneCharacterFromLocal, saveOneCharacterToLocal } from '@/useCase';
 import { ch, ch2 } from '@/components/data';
 import ListCharacter from '@/components/character/list-character';
 import { router } from 'expo-router';
 
 const Bookmark = () => {
   const db = useSQLiteContext();
-  const { limit, offset } = { limit: 10, offset: 0 };
 
-  const [chars, setChars] = useState<Character[]>();
+  const [data, setData] = useState<Character[]>();
   const [page, setPage] = useState(1);
 
   const setPageValid = (seterPage: number) => {
@@ -33,9 +32,9 @@ const Bookmark = () => {
 
   useEffect(() => {
     async function setup(db: SQLiteDatabase) {
-      const result = await saveCharacterToLocal(db, ch);
+      const result = await saveOneCharacterToLocal(db, ch);
       const char_res = (await getOneCharacterFromLocal(db, result.lastInsertRowId)) || ch2;
-      setChars([char_res]);
+      setData([char_res]);
     }
     setup(db);
   }, []);
@@ -43,7 +42,7 @@ const Bookmark = () => {
   return (
     <SafeAreaView>
       <ListCharacter
-        data={chars || []}
+        data={data || []}
         onPress={(id: number) => router.push({ pathname: '/bookmarks/[id]', params: { id } })}
         ListHeaderComponent={ListHeaderComponent}
       />

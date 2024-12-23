@@ -21,11 +21,11 @@ const BookmarkId = () => {
   };
 
   useEffect(() => {
-    getCharacter(+(id || 12));
+    getCharacter(parseInt(id || '1'));
   }, [character]);
 
   return (
-    <View style={styles.container}>
+    <View>
       <ScrollView>
         {!character ? (
           <Text style={styles.text}>Loading...</Text>
@@ -40,11 +40,6 @@ const BookmarkId = () => {
 export default BookmarkId;
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-
   text: {
     fontSize: 50,
     fontWeight: 'bold',

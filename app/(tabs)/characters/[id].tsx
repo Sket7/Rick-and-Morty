@@ -5,9 +5,7 @@ import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import { type Character, getOneCharacterFromApi } from '@/useCase';
 import PageCharacter from '@/components/character/page-character';
 
-type Props = {};
-
-const CharacterPage: React.FC<Props> = ({}) => {
+const CharacterPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const [character, setCharacter] = React.useState<Character>();
@@ -22,11 +20,11 @@ const CharacterPage: React.FC<Props> = ({}) => {
   };
 
   useEffect(() => {
-    getCharacter(+(id || 12));
+    getCharacter(parseInt(id || '1'));
   }, [character]);
 
   return (
-    <View style={styles.container}>
+    <View>
       <ScrollView>
         {!character ? (
           <Text style={styles.text}>Loading...</Text>
@@ -41,11 +39,6 @@ const CharacterPage: React.FC<Props> = ({}) => {
 export default CharacterPage;
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-
   text: {
     fontSize: 50,
     fontWeight: 'bold',

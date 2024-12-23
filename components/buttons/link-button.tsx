@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, type TextStyle, View } from 'react-native';
+import { Pressable, StyleSheet, Text, type TextStyle } from 'react-native';
 import React from 'react';
 import { type Href, Link } from 'expo-router';
 

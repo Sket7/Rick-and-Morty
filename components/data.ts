@@ -1,4 +1,4 @@
-import { Character } from '@/useCase';
+import type { Character } from '@/useCase';
 
 export const ch: Character = {
   id: 379,

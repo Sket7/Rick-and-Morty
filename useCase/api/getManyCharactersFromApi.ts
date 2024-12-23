@@ -1,6 +1,6 @@
 import { fetch as expo_fetch } from 'expo/fetch';
 
-import { CharactersFromApi } from './types';
+import type { CharactersFromApi } from './types';
 
 export const getManyCharactersFromApi = async (page: number = 0): Promise<CharactersFromApi> => {
   const response = await expo_fetch(
