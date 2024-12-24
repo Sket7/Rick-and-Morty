@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { ScrollView, Text, View, StyleSheet } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 
-import { type Character, getOneCharacterFromApi } from '@/useCase';
-import PageCharacter from '@/components/character/page-character';
+import { type Character, getOneCharacterFromApi, saveOneCharacterToLocal } from '@/useCase';
+import CartCharacter from '@/components/character/cart-character';
+import { useSQLiteContext } from 'expo-sqlite';
 
 const CharacterPage = () => {
+  const db = useSQLiteContext();
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const [character, setCharacter] = React.useState<Character>();
+  const [character, setCharacter] = useState<Character>();
 
   const getCharacter = async (id: number) => {
     try {
@@ -27,9 +29,17 @@ const CharacterPage = () => {
     <View>
       <ScrollView>
         {!character ? (
-          <Text style={styles.text}>Loading...</Text>
+          <Text style={styles.text}>Загрузка...</Text>
         ) : (
-          <PageCharacter item={character} />
+          <View>
+            <CartCharacter item={character} />
+            <Button
+              title="Сохранить в БД"
+              onPress={() => {
+                saveOneCharacterToLocal(db, character);
+              }}
+            />
+          </View>
         )}
       </ScrollView>
     </View>

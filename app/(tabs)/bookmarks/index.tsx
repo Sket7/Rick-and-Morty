@@ -1,43 +1,53 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SQLiteDatabase, useSQLiteContext } from 'expo-sqlite';
-
-import { type Character, getOneCharacterFromLocal, saveOneCharacterToLocal } from '@/useCase';
-import { ch, ch2 } from '@/components/data';
-import ListCharacter from '@/components/character/list-character';
+import { useSQLiteContext } from 'expo-sqlite';
 import { router } from 'expo-router';
+
+import { type Character, getManyCharactersFromLocal } from '@/useCase';
+import ListCharacter from '@/components/character/list-character';
+import { getCountCharactersFromLocal } from '@/useCase/db/character/getCountCharactersFromLocal';
 
 const Bookmark = () => {
   const db = useSQLiteContext();
 
-  const [data, setData] = useState<Character[]>();
-  const [page, setPage] = useState(1);
+  const limit = 4;
 
-  const setPageValid = (seterPage: number) => {
+  const [data, setData] = useState<Character[]>();
+  const [maxPages, setMaxPages] = useState<number>(10);
+  const [page, setPage] = useState<number>(1);
+
+  function setPageValid(seterPage: number) {
     if (seterPage < 1) return setPage(1);
-    // if (seterPage > (data?.info.pages || 1)) return setPage(data?.info.pages || 1);
+    if (seterPage > maxPages) return setPage(maxPages);
     return setPage(seterPage);
-  };
+  }
+
+  async function getCharacters(page: number) {
+    const result = await getManyCharactersFromLocal(db, page, limit);
+    const count = await getCountCharactersFromLocal(db);
+    setMaxPages(!count ? 0 : Math.ceil(count['count(*)'] / limit));
+    setData(result);
+  }
+
+  useEffect(() => {
+    getCharacters(page);
+  }, [page]);
 
   const ListHeaderComponent = () => {
     return (
       <View style={styles.listEmptyComponent}>
-        <Button color={styles.button.color} title="<" onPress={() => setPageValid(page - 1)} />
-        <Text style={styles.textEmpty}>{page}</Text>
-        <Button color={styles.button.color} title=">" onPress={() => setPageValid(page + 1)} />
+        <View style={styles.buttonsPageComponent}>
+          <Button color={styles.button.color} title=" <- " onPress={() => setPageValid(page - 1)} />
+          <Text style={styles.textEmpty}>
+            {page} | {maxPages}
+          </Text>
+          <Button color={styles.button.color} title=" -> " onPress={() => setPageValid(page + 1)} />
+        </View>
+        {/* <Button title="Обновить" onPress={() => getCharacters(page)} /> */}
       </View>
     );
   };
-
-  useEffect(() => {
-    async function setup(db: SQLiteDatabase) {
-      const result = await saveOneCharacterToLocal(db, ch);
-      const char_res = (await getOneCharacterFromLocal(db, result.lastInsertRowId)) || ch2;
-      setData([char_res]);
-    }
-    setup(db);
-  }, []);
 
   return (
     <SafeAreaView>
@@ -56,8 +66,11 @@ const styles = StyleSheet.create({
   listEmptyComponent: {
     flexDirection: 'row',
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  buttonsPageComponent: {
+    flexDirection: 'row',
   },
   textEmpty: {
     fontSize: 24,

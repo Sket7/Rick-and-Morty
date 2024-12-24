@@ -1,7 +1,7 @@
 import type { SQLiteDatabase } from 'expo-sqlite';
 
 import type { Character } from '@/useCase';
-import { retypeToCharacterInsert } from './types';
+import { retypeToCharacterInsert } from '@/useCase/db/types';
 
 export const saveOneCharacterToLocal = async (db: SQLiteDatabase, item: Character) => {
   const _charDb = retypeToCharacterInsert(item);

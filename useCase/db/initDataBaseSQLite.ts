@@ -1,7 +1,7 @@
 import type { SQLiteDatabase } from 'expo-sqlite';
 
 export const initDataBaseSQLite = async (db: SQLiteDatabase) => {
-  await db.execAsync(drop);
+  // await db.execAsync(drop);
   await db.execAsync(create);
 };
 

@@ -2,7 +2,7 @@ import { SafeAreaView, StyleSheet, View, Text, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 import ListCharacter from '@/components/character/list-character';
-import { type Character, type CharactersFromApi, getManyCharactersFromApi } from '@/useCase';
+import { type CharactersFromApi, getManyCharactersFromApi } from '@/useCase';
 import { router } from 'expo-router';
 
 const Characters = () => {
@@ -13,16 +13,6 @@ const Characters = () => {
     if (seterPage < 1) return setPage(1);
     if (seterPage > (data?.info.pages || 1)) return setPage(data?.info.pages || 1);
     return setPage(seterPage);
-  };
-
-  const ListHeaderComponent = () => {
-    return (
-      <View style={styles.listEmptyComponent}>
-        <Button color={styles.button.color} title="<" onPress={() => setPageValid(page - 1)} />
-        <Text style={styles.textEmpty}>{page}</Text>
-        <Button color={styles.button.color} title=">" onPress={() => setPageValid(page + 1)} />
-      </View>
-    );
   };
 
   const getCharacters = async (page: number) => {
@@ -37,6 +27,20 @@ const Characters = () => {
   useEffect(() => {
     getCharacters(page);
   }, [page]);
+
+  const ListHeaderComponent = () => {
+    return (
+      <View style={styles.listEmptyComponent}>
+        <View style={styles.buttonsPageComponent}>
+          <Button color={styles.button.color} title=" <- " onPress={() => setPageValid(page - 1)} />
+          <Text style={styles.textEmpty}>
+            {page} | {data?.info.pages || 1}
+          </Text>
+          <Button color={styles.button.color} title=" -> " onPress={() => setPageValid(page + 1)} />
+        </View>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView>
@@ -55,8 +59,11 @@ const styles = StyleSheet.create({
   listEmptyComponent: {
     flexDirection: 'row',
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  buttonsPageComponent: {
+    flexDirection: 'row',
   },
   textEmpty: {
     fontSize: 24,

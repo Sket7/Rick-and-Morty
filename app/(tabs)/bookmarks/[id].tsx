@@ -1,15 +1,16 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import PageCharacter from '@/components/character/page-character';
-import { Character, getOneCharacterFromLocal } from '@/useCase';
 import { useSQLiteContext } from 'expo-sqlite';
+
+import { type Character, deleteOneCharacterFromLocal, getOneCharacterFromLocal } from '@/useCase';
+import CartCharacter from '@/components/character/cart-character';
 
 const BookmarkId = () => {
   const db = useSQLiteContext();
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const [character, setCharacter] = React.useState<Character>();
+  const [character, setCharacter] = useState<Character>();
 
   const getCharacter = async (id: number) => {
     try {
@@ -28,9 +29,18 @@ const BookmarkId = () => {
     <View>
       <ScrollView>
         {!character ? (
-          <Text style={styles.text}>Loading...</Text>
+          <Text style={styles.text}>Загрузка...</Text>
         ) : (
-          <PageCharacter item={character} />
+          <View>
+            <CartCharacter item={character} />
+            <Button
+              title="Удалить из БД"
+              onPress={() => {
+                deleteOneCharacterFromLocal(db, character.id);
+                setCharacter(undefined);
+              }}
+            />
+          </View>
         )}
       </ScrollView>
     </View>
