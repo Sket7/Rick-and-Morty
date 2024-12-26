@@ -1,6 +1,16 @@
-export interface CharactersFromApi {
+export interface CharacterFromApi {
   info: Info;
   results: Character[];
+}
+
+export interface EpisodeFromApi {
+  info: Info;
+  results: Episode[];
+}
+
+export interface LocationFromApi {
+  info: Info;
+  results: Location[];
 }
 
 export interface Character {
@@ -14,6 +24,26 @@ export interface Character {
   location: Origin;
   image: string;
   episode: string[];
+  url: string;
+  created: string;
+}
+
+export interface Episode {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string[];
+  url: string;
+  created: string;
+}
+
+export interface Location {
+  id: number;
+  name: string;
+  type: string;
+  dimension: string;
+  residents: string[];
   url: string;
   created: string;
 }

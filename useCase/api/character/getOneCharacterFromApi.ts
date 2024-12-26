@@ -1,6 +1,6 @@
 import { fetch as expo_fetch } from 'expo/fetch';
 
-import type { Character } from './types';
+import type { Character } from '../types';
 
 export const getOneCharacterFromApi = async (id: number = 1): Promise<Character> => {
   if (id < 1) return getOneCharacterFromApi(1);

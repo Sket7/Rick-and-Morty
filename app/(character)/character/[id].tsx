@@ -29,7 +29,7 @@ const CharacterPage = () => {
     <View>
       <ScrollView>
         {!character ? (
-          <Text style={styles.text}>Загрузка...</Text>
+          <Text style={styles.textLoader}>Загрузка...</Text>
         ) : (
           <View>
             <CartCharacter item={character} />
@@ -49,7 +49,7 @@ const CharacterPage = () => {
 export default CharacterPage;
 
 const styles = StyleSheet.create({
-  text: {
+  textLoader: {
     fontSize: 50,
     fontWeight: 'bold',
     color: '#ff9800',

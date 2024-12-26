@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, type TextStyle } from 'react-native';
 import React from 'react';
+import { Pressable, Text, type TextStyle } from 'react-native';
 import { type Href, Link } from 'expo-router';
 
 interface Props {
@@ -20,5 +20,3 @@ const LinkButton: React.FC<Props> = ({ text, href, style }) => {
 };
 
 export default LinkButton;
-
-const styles = StyleSheet.create({});

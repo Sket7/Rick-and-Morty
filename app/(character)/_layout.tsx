@@ -3,11 +3,11 @@ import { Tabs } from 'expo-router';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-const TabsLayout = () => {
+const TabsCharLayout = () => {
   return (
     <Tabs>
       <Tabs.Screen
-        name="characters"
+        name="character"
         options={{
           title: 'Персонажи',
           tabBarIcon: () => <FontAwesome6 name="person" size={22} color="#3c3e44" />,
@@ -24,4 +24,4 @@ const TabsLayout = () => {
   );
 };
 
-export default TabsLayout;
+export default TabsCharLayout;

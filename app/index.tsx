@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import LinkButton from '@/components/buttons/link-button';
@@ -6,9 +5,9 @@ import LinkButton from '@/components/buttons/link-button';
 const StartPage = () => {
   return (
     <View style={styles.container}>
-      <LinkButton text="Characters" href="/characters" style={styles.text} />
-      {/* <LinkButton text="Location" href="/characters" style={styles.text} />
-      <LinkButton text="Episode" href="/characters" style={styles.text} /> */}
+      <LinkButton text="Персонажи" href="/character" style={styles.text} />
+      <LinkButton text="Эпизоды" href="/episode" style={styles.text} />
+      <LinkButton text="Локации" href="/location" style={styles.text} />
     </View>
   );
 };

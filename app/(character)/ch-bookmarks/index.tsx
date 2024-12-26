@@ -1,83 +1,48 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
 import { router } from 'expo-router';
 
-import { type Character, getManyCharactersFromLocal } from '@/useCase';
+import ListHeaderComponent from '@/components/commons/list-header';
 import ListCharacter from '@/components/character/list-character';
-import { getCountCharactersFromLocal } from '@/useCase/db/character/getCountCharactersFromLocal';
+import { type Character, getManyCharactersFromLocal, getCountCharactersFromLocal } from '@/useCase';
+import { validPage } from '@/utils';
 
 const Bookmark = () => {
   const db = useSQLiteContext();
 
-  const limit = 4;
+  const _limit = 4;
 
   const [data, setData] = useState<Character[]>();
   const [maxPages, setMaxPages] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
 
-  function setPageValid(seterPage: number) {
-    if (seterPage < 1) return setPage(1);
-    if (seterPage > maxPages) return setPage(maxPages);
-    return setPage(seterPage);
-  }
-
-  async function getCharacters(page: number) {
-    const result = await getManyCharactersFromLocal(db, page, limit);
-    const count = await getCountCharactersFromLocal(db);
-    setMaxPages(!count ? 0 : Math.ceil(count['count(*)'] / limit));
-    setData(result);
-  }
-
   useEffect(() => {
+    const getCharacters = async (page: number) => {
+      const result = await getManyCharactersFromLocal(db, page, _limit);
+      const count = await getCountCharactersFromLocal(db);
+      setMaxPages(!count ? 0 : Math.ceil(count['count(*)'] / _limit));
+      setData(result);
+    };
     getCharacters(page);
   }, [page]);
-
-  const ListHeaderComponent = () => {
-    return (
-      <View style={styles.listEmptyComponent}>
-        <View style={styles.buttonsPageComponent}>
-          <Button color={styles.button.color} title=" <- " onPress={() => setPageValid(page - 1)} />
-          <Text style={styles.textEmpty}>
-            {page} | {maxPages}
-          </Text>
-          <Button color={styles.button.color} title=" -> " onPress={() => setPageValid(page + 1)} />
-        </View>
-        {/* <Button title="Обновить" onPress={() => getCharacters(page)} /> */}
-      </View>
-    );
-  };
 
   return (
     <SafeAreaView>
       <ListCharacter
         data={data || []}
-        onPress={(id: number) => router.push({ pathname: '/bookmarks/[id]', params: { id } })}
-        ListHeaderComponent={ListHeaderComponent}
+        onPress={(id: number) => router.push({ pathname: '/ch-bookmarks/[id]', params: { id } })}
+        ListHeaderComponent={() => (
+          <ListHeaderComponent
+            page={page}
+            maxPages={maxPages}
+            arrowBack={() => setPage(validPage(page - 1, maxPages))}
+            arrowNext={() => setPage(validPage(page + 1, maxPages))}
+          />
+        )}
       />
     </SafeAreaView>
   );
 };
 
 export default Bookmark;
-
-const styles = StyleSheet.create({
-  listEmptyComponent: {
-    flexDirection: 'row',
-    padding: 20,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  buttonsPageComponent: {
-    flexDirection: 'row',
-  },
-  textEmpty: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginInline: 25,
-  },
-  button: {
-    color: '#ff9800',
-  },
-});

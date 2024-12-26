@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Button, SafeAreaView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 
@@ -12,24 +12,23 @@ const BookmarkId = () => {
 
   const [character, setCharacter] = useState<Character>();
 
-  const getCharacter = async (id: number) => {
-    try {
-      const data = await getOneCharacterFromLocal(db, id);
-      setCharacter(data || undefined);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    const getCharacter = async (id: number) => {
+      try {
+        const data = await getOneCharacterFromLocal(db, id);
+        setCharacter(data || undefined);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     getCharacter(parseInt(id || '1'));
   }, [character]);
 
   return (
-    <View>
+    <SafeAreaView>
       <ScrollView>
         {!character ? (
-          <Text style={styles.text}>Загрузка...</Text>
+          <Text style={styles.textLoader}>Загрузка...</Text>
         ) : (
           <View>
             <CartCharacter item={character} />
@@ -43,14 +42,14 @@ const BookmarkId = () => {
           </View>
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default BookmarkId;
 
 const styles = StyleSheet.create({
-  text: {
+  textLoader: {
     fontSize: 50,
     fontWeight: 'bold',
     color: '#ff9800',
