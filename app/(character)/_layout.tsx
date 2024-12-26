@@ -14,7 +14,7 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="bookmarks"
+        name="ch-bookmarks"
         options={{
           title: 'Персонажи - Локально',
           tabBarIcon: () => <FontAwesome6 name="bookmark" size={22} color="#3c3e44" />,

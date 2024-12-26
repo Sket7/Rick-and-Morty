@@ -7,7 +7,9 @@ const StackLayout = () => {
   return (
     <SQLiteProvider databaseName="rickandmorty.db" onInit={initDataBaseSQLite}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(character)" options={{ headerShown: false }} />
+        <Stack.Screen name="(episode)" options={{ headerShown: false }} />
+        <Stack.Screen name="(location)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
     </SQLiteProvider>
