@@ -1,23 +1,23 @@
 import { View, Text, StyleSheet, Button, type ColorValue } from 'react-native';
 
-import type { Character } from '@/useCase';
-import CartCharacter from './cart-character';
+import type { Location } from '@/useCase';
+import CartLocation from './cart-location';
 
 interface Props {
-  character: Character | undefined;
+  location: Location | undefined;
   buttonTitle: string;
   onPress: () => void;
   buttonColor?: ColorValue;
 }
 
-const PageCharacter: React.FC<Props> = ({ character, buttonTitle, onPress, buttonColor }) => {
+const PageLocation: React.FC<Props> = ({ location, buttonTitle, onPress, buttonColor }) => {
   return (
     <View>
-      {!character ? (
+      {!location ? (
         <Text style={styles.textLoader}>Загрузка...</Text>
       ) : (
         <View>
-          <CartCharacter item={character} />
+          <CartLocation item={location} />
           <Button color={buttonColor} title={buttonTitle} onPress={onPress} />
         </View>
       )}
@@ -25,7 +25,7 @@ const PageCharacter: React.FC<Props> = ({ character, buttonTitle, onPress, butto
   );
 };
 
-export default PageCharacter;
+export default PageLocation;
 
 const styles = StyleSheet.create({
   textLoader: {

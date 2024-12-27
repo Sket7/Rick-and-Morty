@@ -19,5 +19,11 @@ CREATE TABLE IF NOT EXISTS characters (
   image TEXT NOT NULL,
   origin TEXT NOT NULL,
   location TEXT NOT NULL
-) 
+);
+CREATE TABLE IF NOT EXISTS locations (
+  id INTEGER PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  type TEXT NOT NULL,
+  dimension TEXT NOT NULL
+);
 `;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { Button, SafeAreaView, View } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
 import { router } from 'expo-router';
 
@@ -18,13 +18,17 @@ const Bookmark = () => {
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    const getCharacters = async (page: number) => {
-      const result = await getManyCharactersFromLocal(db, page, _limit);
-      const count = await getCountCharactersFromLocal(db);
-      setMaxPages(!count ? 0 : Math.ceil(count['count(*)'] / _limit));
-      setData(result);
+    const getData = async (page: number) => {
+      try {
+        const result = await getManyCharactersFromLocal(db, page, _limit);
+        const count = await getCountCharactersFromLocal(db);
+        setMaxPages(!count ? 0 : Math.ceil(count['count(*)'] / _limit));
+        setData(result);
+      } catch (error) {
+        return;
+      }
     };
-    getCharacters(page);
+    getData(page);
   }, [page]);
 
   return (

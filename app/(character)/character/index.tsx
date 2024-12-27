@@ -7,20 +7,20 @@ import ListHeaderComponent from '@/components/commons/list-header';
 import { type CharacterFromApi, getManyCharacterFromApi } from '@/useCase';
 import { validPage } from '@/utils';
 
-const Characters = () => {
+const CharacterIndex = () => {
   const [data, setData] = useState<CharacterFromApi>();
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    const getCharacters = async (page: number) => {
+    const getData = async (page: number) => {
       try {
         const data = await getManyCharacterFromApi(page);
         setData(data);
       } catch (error) {
-        console.error(error);
+        return;
       }
     };
-    getCharacters(page);
+    getData(page);
   }, [page]);
 
   return (
@@ -41,4 +41,4 @@ const Characters = () => {
   );
 };
 
-export default Characters;
+export default CharacterIndex;

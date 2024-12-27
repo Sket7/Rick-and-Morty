@@ -1,4 +1,4 @@
-import type { Character } from '@/useCase';
+import type { Character, Location, Episode } from '@/useCase';
 
 export interface CharacterInsert {
   $id: number;
@@ -23,6 +23,41 @@ export interface CharacterSelect {
   origin: string;
   location: string;
 }
+
+export interface LocationInsert {
+  $id: number;
+  $name: string;
+  $type: string;
+  $dimension: string;
+}
+
+export interface LocationSelect {
+  id: number;
+  name: string;
+  type: string;
+  dimension: string;
+}
+
+export const retypeToLocation = (item: LocationSelect): Location => {
+  return {
+    id: item.id,
+    name: item.name,
+    type: item.type,
+    dimension: item.dimension,
+    residents: [],
+    url: '',
+    created: '',
+  };
+};
+
+export const retypeToLocationInsert = (item: Location): LocationInsert => {
+  return {
+    $id: item.id,
+    $name: item.name,
+    $type: item.type,
+    $dimension: item.dimension,
+  };
+};
 
 export const retypeToCharacter = (item: CharacterSelect): Character => {
   return {

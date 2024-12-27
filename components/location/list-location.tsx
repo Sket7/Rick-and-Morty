@@ -1,22 +1,22 @@
 import React from 'react';
 import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-import CartCharacter from './cart-character';
-import type { Character } from '@/useCase';
-import ListEmptyComponent from '../commons/list-empty';
+import CartLocation from './cart-location';
+import type { Location } from '@/useCase';
+import ListEmptyComponent from '@/components/commons/list-empty';
 
 type Props = {
-  data: Character[];
+  data: Location[];
   onPress: (id: number) => void;
   ListHeaderComponent: () => React.JSX.Element;
 };
 
-const ListCharacter: React.FC<Props> = ({ data, onPress, ListHeaderComponent }: Props) => {
-  const renderItem = ({ item }: { item: Character }) => {
+const ListLocation: React.FC<Props> = ({ data, onPress, ListHeaderComponent }: Props) => {
+  const renderItem = ({ item }: { item: Location }) => {
     return (
       <View style={styles.renderItem}>
         <TouchableOpacity activeOpacity={0.6} onPress={() => onPress(item.id)}>
-          <CartCharacter item={item} />
+          <CartLocation item={item} />
         </TouchableOpacity>
       </View>
     );
@@ -33,7 +33,7 @@ const ListCharacter: React.FC<Props> = ({ data, onPress, ListHeaderComponent }: 
   );
 };
 
-export default ListCharacter;
+export default ListLocation;
 
 const styles = StyleSheet.create({
   renderItem: {
