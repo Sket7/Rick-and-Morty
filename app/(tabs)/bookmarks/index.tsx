@@ -18,12 +18,6 @@ const Bookmark = () => {
   const [maxPages, setMaxPages] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
 
-  function setPageValid(seterPage: number) {
-    if (seterPage < 1) return setPage(1);
-    if (seterPage > maxPages) return setPage(maxPages);
-    return setPage(seterPage);
-  }
-
   async function getCharacters(page: number) {
     const result = await getManyCharactersFromLocal(db, page, limit);
     const count = await getCountCharactersFromLocal(db);
