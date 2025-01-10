@@ -4,16 +4,11 @@ import React, { useEffect, useState } from 'react';
 import ListCharacter from '@/components/character/list-character';
 import { type CharactersFromApi, getManyCharactersFromApi } from '@/useCase';
 import { router } from 'expo-router';
+import { validPage } from '@/utils/valid-page';
 
 const Characters = () => {
   const [data, setData] = useState<CharactersFromApi>();
   const [page, setPage] = useState(1);
-
-  const setPageValid = (seterPage: number) => {
-    if (seterPage < 1) return setPage(1);
-    if (seterPage > (data?.info.pages || 1)) return setPage(data?.info.pages || 1);
-    return setPage(seterPage);
-  };
 
   const getCharacters = async (page: number) => {
     try {
@@ -32,11 +27,19 @@ const Characters = () => {
     return (
       <View style={styles.listEmptyComponent}>
         <View style={styles.buttonsPageComponent}>
-          <Button color={styles.button.color} title=" <- " onPress={() => setPageValid(page - 1)} />
+          <Button
+            color={styles.button.color}
+            title=" <- "
+            onPress={() => setPage(validPage(page - 1, data?.info.pages || 1))}
+          />
           <Text style={styles.textEmpty}>
             {page} | {data?.info.pages || 1}
           </Text>
-          <Button color={styles.button.color} title=" -> " onPress={() => setPageValid(page + 1)} />
+          <Button
+            color={styles.button.color}
+            title=" -> "
+            onPress={() => setPage(validPage(page + 1, data?.info.pages || 1))}
+          />
         </View>
       </View>
     );

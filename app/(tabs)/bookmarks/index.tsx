@@ -7,6 +7,7 @@ import { router } from 'expo-router';
 import { type Character, getManyCharactersFromLocal } from '@/useCase';
 import ListCharacter from '@/components/character/list-character';
 import { getCountCharactersFromLocal } from '@/useCase/db/character/getCountCharactersFromLocal';
+import { validPage } from '@/utils/valid-page';
 
 const Bookmark = () => {
   const db = useSQLiteContext();
@@ -38,11 +39,19 @@ const Bookmark = () => {
     return (
       <View style={styles.listEmptyComponent}>
         <View style={styles.buttonsPageComponent}>
-          <Button color={styles.button.color} title=" <- " onPress={() => setPageValid(page - 1)} />
+          <Button
+            color={styles.button.color}
+            title=" <- "
+            onPress={() => setPage(validPage(page - 1, maxPages || 1))}
+          />
           <Text style={styles.textEmpty}>
             {page} | {maxPages}
           </Text>
-          <Button color={styles.button.color} title=" -> " onPress={() => setPageValid(page + 1)} />
+          <Button
+            color={styles.button.color}
+            title=" -> "
+            onPress={() => setPage(validPage(page + 1, maxPages || 1))}
+          />
         </View>
         {/* <Button title="Обновить" onPress={() => getCharacters(page)} /> */}
       </View>
