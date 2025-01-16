@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, SafeAreaView } from 'react-native';
 
-import { type Character, getOneCharacterFromApi, saveOneCharacterToLocal } from '@/useCase';
+import { type Character, getOneCharacterFromApi, SqlTables } from '@/useCase';
 import { useSQLiteContext } from 'expo-sqlite';
 import PageCharacter from '@/components/character/page-character';
+import { saveOneToLocal } from '@/useCase/db/metods/saveOneToLocal';
 
 const CharacterPage = () => {
   const db = useSQLiteContext();
@@ -32,7 +33,7 @@ const CharacterPage = () => {
           buttonTitle="Сохранить в БД"
           onPress={() => {
             if (!character) return;
-            saveOneCharacterToLocal(db, character);
+            saveOneToLocal<Character>(SqlTables.characters, db, character);
           }}
           buttonColor={'#00BC00'}
         />

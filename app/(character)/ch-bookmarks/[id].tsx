@@ -3,10 +3,10 @@ import { ScrollView, SafeAreaView } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 
-import { type Character, deleteOneCharacterFromLocal, getOneCharacterFromLocal } from '@/useCase';
+import { type Character, deleteOneFromLocal, SqlTables, getOneFromLocal } from '@/useCase';
 import PageCharacter from '@/components/character/page-character';
 
-const BookmarkId = () => {
+const ChBookmarkPage = () => {
   const db = useSQLiteContext();
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -15,7 +15,7 @@ const BookmarkId = () => {
   useEffect(() => {
     const getData = async (id: number) => {
       try {
-        const data = await getOneCharacterFromLocal(db, id);
+        const data = await getOneFromLocal<Character>(SqlTables.characters, db, id);
         setCharacter(data || undefined);
       } catch (error) {
         return;
@@ -32,7 +32,7 @@ const BookmarkId = () => {
           buttonTitle="Удалить из БД"
           onPress={() => {
             if (!character) return;
-            deleteOneCharacterFromLocal(db, character.id);
+            deleteOneFromLocal(SqlTables.characters, db, character.id);
             router.back();
           }}
           buttonColor={'#ff3333'}
@@ -42,4 +42,4 @@ const BookmarkId = () => {
   );
 };
 
-export default BookmarkId;
+export default ChBookmarkPage;

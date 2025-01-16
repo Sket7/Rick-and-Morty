@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Button, SafeAreaView, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
 import { router } from 'expo-router';
 
 import ListHeaderComponent from '@/components/commons/list-header';
 import ListCharacter from '@/components/character/list-character';
-import { type Character, getManyCharactersFromLocal, getCountCharactersFromLocal } from '@/useCase';
+import { type Character, getManyFromLocal, getCountFromLocal } from '@/useCase';
 import { validPage } from '@/utils';
+import { SqlTables } from '@/useCase/db/sql-names';
 
-const Bookmark = () => {
+const ChBookmark = () => {
   const db = useSQLiteContext();
 
   const _limit = 4;
@@ -20,10 +21,10 @@ const Bookmark = () => {
   useEffect(() => {
     const getData = async (page: number) => {
       try {
-        const result = await getManyCharactersFromLocal(db, page, _limit);
-        const count = await getCountCharactersFromLocal(db);
+        const result = await getManyFromLocal(SqlTables.characters, db, page, _limit);
+        const count = await getCountFromLocal(SqlTables.characters, db);
         setMaxPages(!count ? 0 : Math.ceil(count['count(*)'] / _limit));
-        setData(result);
+        setData(result as Character[]);
       } catch (error) {
         return;
       }
@@ -49,4 +50,4 @@ const Bookmark = () => {
   );
 };
 
-export default Bookmark;
+export default ChBookmark;
