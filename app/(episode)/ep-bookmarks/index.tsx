@@ -5,6 +5,8 @@ import { type Episode, getCountFromLocal, getManyFromLocal, SqlTables } from '@/
 import { router } from 'expo-router';
 import { validPage } from '@/utils';
 import { useSQLiteContext } from 'expo-sqlite';
+import ListEpisode from '@/components/episode/list-episode';
+import ListHeaderComponent from '@/components/commons/list-header';
 
 const EpBookmark = () => {
   const db = useSQLiteContext();
@@ -29,7 +31,22 @@ const EpBookmark = () => {
     getData(page);
   }, [page]);
 
-  return <SafeAreaView></SafeAreaView>;
+  return (
+    <SafeAreaView>
+      <ListEpisode
+        data={data || []}
+        onPress={(id: number) => router.push({ pathname: '/ep-bookmarks/[id]', params: { id } })}
+        ListHeaderComponent={() => (
+          <ListHeaderComponent
+            page={page}
+            maxPages={maxPages}
+            arrowBack={() => setPage(validPage(page - 1, maxPages))}
+            arrowNext={() => setPage(validPage(page + 1, maxPages))}
+          />
+        )}
+      />
+    </SafeAreaView>
+  );
 };
 
 export default EpBookmark;

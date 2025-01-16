@@ -1,10 +1,10 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 
 import PageLocation from '@/components/location/page-location';
-import { getOneFromLocal, saveOneToLocal, SqlTables, type Location } from '@/useCase';
+import { deleteOneFromLocal, getOneFromLocal, SqlTables, type Location } from '@/useCase';
 
 const LocBookmarkPage = () => {
   const db = useSQLiteContext();
@@ -29,12 +29,13 @@ const LocBookmarkPage = () => {
       <ScrollView>
         <PageLocation
           location={location}
-          buttonTitle="Сохранить в БД"
+          buttonTitle="Удалить из БД"
           onPress={() => {
             if (!location) return;
-            saveOneToLocal(SqlTables.locations, db, location);
+            deleteOneFromLocal(SqlTables.locations, db, location.id);
+            router.back();
           }}
-          buttonColor={'#00BC00'}
+          buttonColor={'#ff3333'}
         />
       </ScrollView>
     </SafeAreaView>

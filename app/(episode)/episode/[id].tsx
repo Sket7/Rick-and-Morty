@@ -1,4 +1,5 @@
-import { getOneEpisodeFromApi, type Episode } from '@/useCase';
+import PageEpisode from '@/components/episode/page-episode';
+import { getOneEpisodeFromApi, saveOneToLocal, SqlTables, type Episode } from '@/useCase';
 import { useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
@@ -24,7 +25,17 @@ const EpisodePage = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView></ScrollView>
+      <ScrollView>
+        <PageEpisode
+          episode={episode}
+          buttonTitle="Сохранить в БД"
+          onPress={() => {
+            if (!episode) return;
+            saveOneToLocal<Episode>(SqlTables.episodes, db, episode);
+          }}
+          buttonColor={'#00BC00'}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
