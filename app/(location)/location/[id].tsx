@@ -1,6 +1,5 @@
 import PageLocation from '@/components/location/page-location';
-import { getOneLocationFromApi, type Location } from '@/useCase';
-import { saveOneLocationToLocal } from '@/useCase/db/location/one/saveOneLocationToLocal';
+import { getOneLocationFromApi, type Location, saveOneToLocal, SqlTables } from '@/useCase';
 import { useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
@@ -32,7 +31,7 @@ const LocationPage = () => {
           buttonTitle="Сохранить в БД"
           onPress={() => {
             if (!location) return;
-            saveOneLocationToLocal(db, location);
+            saveOneToLocal(SqlTables.locations, db, location);
           }}
           buttonColor={'#00BC00'}
         />
